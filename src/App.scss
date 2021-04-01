@@ -1,3 +1,9 @@
+
+$finalHeight: 400px;
+$finalWidth: 3 * $finalHeight;
+$scrollBarHeight: 1px;
+
+
 root {
   display: inline;
   width: 10px;
@@ -9,16 +15,15 @@ root {
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
-  margin: 10% auto;
+  margin:10% auto;
 }
-
-/* 
+ /* 
 .cardsScroll {
   position: absolute;
   display: block;
   top: 0;
   left: 0;
-  width: calc(400px + 1px);
+  width: calc(#{$finalHeight} + #{$scrollBarHeight});
   max-height: $finalWidth;
   margin: 0 auto;
   padding-top: $scrollBarHeight;
@@ -32,9 +37,9 @@ transform: rotate(-90deg)  translateY(-$finalHeight);
 }
 
  */
+
 .cardsScroll root {
   display: inline;
   width: 100px;
   height: 100px;
 }
-/*# sourceMappingURL=App.css.map */
