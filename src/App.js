@@ -22,29 +22,22 @@ import transitions from '@material-ui/core/styles/transitions';
 const useStyles = makeStyles({
   root: {
     '&:hover': { 
-    
-      
-  
-      transform: 'translateY(-30%) translateX(-40%)',
-      transition: 'all .4s ease-in',
+      transform: 'rotate(8deg) translateX(5%)',
+      transformOrigin: 'top right',
+      transition: 'all .2s ease-in',
      },
-     /*
-    maxWidth: 200,
-    display: "block",
-    transformOrigin: "right top",
-
-    transform: "rotate(90deg) ",
-    marginBottom: 400,
-    borderRadius: "10%",
-    */
     display: "inline-block",
+    position:"relative",
+    height: "400px",
+    width: "300px",
+    zIndex: 1,
+    
 
   
   },
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9,
-    marginTop:'30'
   },
   bullet: {
     display: 'inline-block',
@@ -127,59 +120,22 @@ const useStyles = makeStyles({
     });
 
 
-    //DO STYLING ON HOVER
 
-    let test = document.getElementById("root");
 
-// This handler will be executed only once when the cursor
-// moves over the unordered list
-test.addEventListener("mouseenter", function( event ) {
-  // highlight the mouseenter target
-  //event.target.style.background = "red";
 
-  // reset the color after a short delay
-  setTimeout(function() {
-    event.target.style.color = "";
-  }, 500);
-}, false);
 
-// This handler will be executed every time the cursor
-// is moved over a different list item
-test.addEventListener("mouseover", function( event ) {
-  // highlight the mouseover target
-  let targetNode = event.target;
-  while(targetNode.className != "App"){
-   if(targetNode.id.includes("card")){
-    alert(targetNode.id)
-   }
-   
-   targetNode = targetNode.parentNode;
-  }
-  //console.log(event.target.parentNode.className)
-  if(event.target.className.includes("MuiTypography-root makeStyles-title-4 MuiTypography-body1 MuiTypography-colorTextPrimary MuiTypography-gutterBottom")){
-   // event.target.style.transform  = "rotate(-9deg)";
-  }
-  //event.target.style.transform  = "rotate(90deg) translateY(-10%)";
-
-  // reset the color after a short delay
-  setTimeout(function() {
-    if(event.target.className.includes("MuiTypography-root makeStyles-title-4 MuiTypography-body1 MuiTypography-colorTextPrimary MuiTypography-gutterBottom")){
-      
-   // event.target.style.transform  = "rotate(90deg)";
-    }
-
-  }, 5000);
-}, false);
   
   
   }, [])
 
 
-  
+  const moveCard = (cardNumber)=>{
+
+  }
 
 
   return (
-    <div className="App">
+  
       <div className="cardsScroll">
             <Card id="card card1" className={classes.root}
              variant="outlined" 
@@ -371,7 +327,6 @@ test.addEventListener("mouseover", function( event ) {
           </Card>
        
         </div>
-    </div>
   );
 }
 

@@ -1,15 +1,24 @@
-root {
-  display: inline;
-  width: 10px;
-  height: 10px;
+.cardsScroll {
+  height: 500px;
+  overflow-x: scroll;
+  overflow-y: visible;
+  white-space: nowrap;
+  padding-top: 20%;
 }
 
-.cardsScroll {
-  height: 30%;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
-  margin: 10% auto;
+.MuiPaper-root:not(:first-child) {
+  margin-left: -40px;
+}
+
+.MuiPaper-root:nth-child(n):hover {
+  margin-right: 60px;
+  -webkit-transition: all .2s ease-in;
+  transition: all .2s ease-in;
+}
+
+.MuiPaper-root:nth-child(n) {
+  -webkit-transition: all .2s ease-in;
+  transition: all .2s ease-in;
 }
 
 /* 
@@ -18,7 +27,7 @@ root {
   display: block;
   top: 0;
   left: 0;
-  width: calc(400px + 1px);
+  width: calc(800px + 1px);
   max-height: $finalWidth;
   margin: 0 auto;
   padding-top: $scrollBarHeight;
@@ -32,9 +41,4 @@ transform: rotate(-90deg)  translateY(-$finalHeight);
 }
 
  */
-.cardsScroll root {
-  display: inline;
-  width: 100px;
-  height: 100px;
-}
 /*# sourceMappingURL=App.css.map */
