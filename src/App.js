@@ -28,8 +28,10 @@ const useStyles = makeStyles({
      },
     display: "inline-block",
     position:"relative",
-    height: "400px",
-    width: "300px",
+    height: "350px",
+    width: "350px",
+    borderRadius: "5%",
+    boxShadow:"-55px 5px 30px -16px #c1c1c1;",
     zIndex: 1,
     
 
