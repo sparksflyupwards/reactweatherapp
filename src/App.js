@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     display: "inline-block",
     position:"relative",
     height: "350px",
-    width: "350px",
+    width: "400px",
     borderRadius: "5%",
     boxShadow:"-55px 5px 30px -16px #c1c1c1;",
     zIndex: 1,
@@ -78,14 +78,62 @@ const useStyles = makeStyles({
 
   const [weather, setWeather] = useState();
 
+  const [citiesData, setCitiesData] = useState([
+
+  {city:"Aberdeen, Scotland",
+  lat:57.9 ,
+  long:-2.9 ,
+  weather: undefined},
+   {city:"Toronto, Canada",
+  lat:43.65 ,
+  long:-79.38 ,
+ weather: undefined},
+   {city:"Bremen, Germany",
+  lat:53.5,
+  long:8.49 ,
+ weather: undefined},
+   {city:"San Francisco, California",
+  lat:37.77,
+  long:-122.42 ,
+ weather: undefined},
+   {city:"Bangkok, Thailand",
+  lat:13.45,
+  long:100.30 ,
+  weather: undefined},
+
+
+    {city:"Beijing, China",
+  lat:39.55 ,
+  long:116.25 ,
+  weather: undefined},
+
+
+    {city:"Chihuahua, Mexico",
+  lat:28.37 ,
+  long:-106.5 ,
+  weather: undefined},
+    {city:"Irkutsk, Russia",
+  lat:52.30 ,
+  long:104.20 ,
+  weather: undefined},
+    {city:"Liverpool, England",
+  lat:53.25,
+  long:-3.0 ,
+  weather: undefined},
+    {city:"Milan, Italy",
+  lat:45.27,
+  long:9.10 ,
+  weather: undefined},
+
+])
 
  
-  const getWeatherData = async (location)=>{
-    const url  ='https://weather-proxy.freecodecamp.rocks/api/current?lat='+Number(location.lat)+'&lon='+Number(location.long);
+  const getWeatherData = async (city)=>{
+    const url  ='https://weather-proxy.freecodecamp.rocks/api/current?lat='+Number(city.lat)+'&lon='+Number(city.long);
     const weatherData = await axios.get(url);
     console.log(weatherData.data);
-
-    setWeather(weatherData.data);
+    city.weather = weatherData.data;
+    setCitiesData([...citiesData, city])
   }
   const [loc, setLoc] = useState({});
 
@@ -94,12 +142,17 @@ const useStyles = makeStyles({
 
     if(loc.hasOwnProperty("lat")){
       console.log('Do something after loc has changed', loc);
-      getWeatherData(loc)
+      //getWeatherData(loc)
 
      
     }
     
  }, [loc]);
+
+
+ useEffect(()=>{
+console.log(citiesData)
+ }, [citiesData])
 
 
 
@@ -114,14 +167,16 @@ const useStyles = makeStyles({
     navigator.geolocation.getCurrentPosition(function(position) {
       console.log("Latitude is :", position.coords.latitude);
       console.log("Longitude is :", position.coords.longitude);
-      setLoc({long:position.coords.longitude, lat:position.coords.latitude});
+      //setLoc({long:position.coords.longitude, lat:position.coords.latitude});
 
       
       
       
     });
 
-
+    for(let city of citiesData){
+      getWeatherData(city);
+    }
 
 
 
@@ -130,204 +185,63 @@ const useStyles = makeStyles({
   
   }, [])
 
-
-  const moveCard = (cardNumber)=>{
-
+  const sortCold = ()=>{
+    alert("sort cold")
   }
+  
+  const sortHot = () => {
+    alert("sort hot")
+  }
+  const weatherCards = citiesData.map((city, idx)=>{
+
+    return( <Card id={"card card"+idx} className={classes.root}
+             variant="outlined" 
+             onMouseEnter={()=>console.log("WE ON CARD "+idx)}>
+                    <CardContent >
+                      <Typography className={classes.title} color="textPrimary" gutterBottom>
+                        {city.city}
+                      </Typography>
+                      { city.weather !== undefined ? 
+                      <div>
+
+                          
+                            <img src={city.weather.weather[0].icon} alt={"error loading weather data" }></img>
+                            <Typography className={classes.pos} color="textSecondary">
+                            {"Feels like: " + JSON.stringify(city.weather.main.feels_like)}
+                          </Typography>
+                      </div>
+
+                      :
+                      <div className={classes.loading}>
+                          <LinearProgress className={classes.loadingBar}/>
+                          <LinearProgress color="secondary" className={classes.loadingBar}/>
+                      </div>
+                  
+
+                      }
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small">Learn More</Button>
+                    </CardActions>
+          </Card>)
+  })
 
 
   return (
   
       <div className="cardsScroll">
-            <Card id="card card1" className={classes.root}
-             variant="outlined" 
-             onMouseEnter={()=>console.log("WE ON CARD 1")}>
-                    <CardContent >
-                      <Typography className={classes.title} color="textPrimary" gutterBottom>
-                        Weather Today
-                      </Typography>
-                      { weather !== undefined ? 
-                      <div>
-
-                          
-                            <img src={weather.weather[0].icon} alt={"error loading weather data" }></img>
-                            <Typography className={classes.pos} color="textSecondary">
-                            {"Feels like: " + JSON.stringify(weather.main.feels_like)}
-                          </Typography>
-                      </div>
-
-                      :
-                      <div className={classes.loading}>
-                          <LinearProgress className={classes.loadingBar}/>
-                          <LinearProgress color="secondary" className={classes.loadingBar}/>
-                      </div>
-                  
-
-                      }
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small">Learn More</Button>
-                    </CardActions>
-          </Card>
-
-
-
-          <Card id="card card2" 
-          onMouseEnter={()=>console.log("WE ON CARD 2")} onMouseExit={()=>alert("card2gone")} className={classes.root} variant="outlined">
-                    <CardContent>
-                      <Typography className={classes.title} color="textPrimary" gutterBottom>
-                        Weather Today
-                      </Typography>
-                      { weather !== undefined ? 
-                      <div>
-
-                          
-                            <img src={weather.weather[0].icon} alt={"error loading weather data" }></img>
-                            <Typography className={classes.pos} color="textSecondary">
-                            {"Feels like: " + JSON.stringify(weather.main.feels_like)}
-                          </Typography>
-                      </div>
-
-                      :
-                      <div className={classes.loading}>
-                          <LinearProgress className={classes.loadingBar}/>
-                          <LinearProgress color="secondary" className={classes.loadingBar}/>
-                      </div>
-                  
-
-                      }
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small">Learn More</Button>
-                    </CardActions>
-          </Card>
-
-
-
-
-
-          <Card id="card card3"  className={classes.root} variant="outlined">
-                    <CardContent>
-                      <Typography className={classes.title} color="textPrimary" gutterBottom>
-                        Weather Today
-                      </Typography>
-                      { weather !== undefined ? 
-                      <div>
-
-                          
-                            <img src={weather.weather[0].icon} alt={"error loading weather data" }></img>
-                            <Typography className={classes.pos} color="textSecondary">
-                            {"Feels like: " + JSON.stringify(weather.main.feels_like)}
-                          </Typography>
-                      </div>
-
-                      :
-                      <div className={classes.loading}>
-                          <LinearProgress className={classes.loadingBar}/>
-                          <LinearProgress color="secondary" className={classes.loadingBar}/>
-                      </div>
-                  
-
-                      }
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small">Learn More</Button>
-                    </CardActions>
-          </Card>
-
-
-
-
-
-          <Card id="card card4"  className={classes.root} variant="outlined">
-                    <CardContent>
-                      <Typography className={classes.title} color="textPrimary" gutterBottom>
-                        Weather Today
-                      </Typography>
-                      { weather !== undefined ? 
-                      <div>
-
-                          
-                            <img src={weather.weather[0].icon} alt={"error loading weather data" }></img>
-                            <Typography className={classes.pos} color="textSecondary">
-                            {"Feels like: " + JSON.stringify(weather.main.feels_like)}
-                          </Typography>
-                      </div>
-
-                      :
-                      <div className={classes.loading}>
-                          <LinearProgress className={classes.loadingBar}/>
-                          <LinearProgress color="secondary" className={classes.loadingBar}/>
-                      </div>
-                  
-
-                      }
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small">Learn More</Button>
-                    </CardActions>
-          </Card>
+      <div className="sort">
+      <button onClick={sortCold}>{"<-Colder"} </button>
+       <button onClick={sortHot}>{"Hotter -->"} </button>
+      </div>
+      
+      {weatherCards}
        
-       
-          <Card id="card card5"  className={classes.root} variant="outlined">
-                    <CardContent>
-                      <Typography className={classes.title} color="textPrimary" gutterBottom>
-                        Weather Today
-                      </Typography>
-                      { weather !== undefined ? 
-                      <div>
+  
 
-                          
-                            <img src={weather.weather[0].icon} alt={"error loading weather data" }></img>
-                            <Typography className={classes.pos} color="textSecondary">
-                            {"Feels like: " + JSON.stringify(weather.main.feels_like)}
-                          </Typography>
-                      </div>
-
-                      :
-                      <div className={classes.loading}>
-                          <LinearProgress className={classes.loadingBar}/>
-                          <LinearProgress color="secondary" className={classes.loadingBar}/>
-                      </div>
                   
-
-                      }
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small">Learn More</Button>
-                    </CardActions>
-          </Card>
        
 
-          <Card className={classes.root} variant="outlined">
-                    <CardContent>
-                      <Typography className={classes.title} color="textPrimary" gutterBottom>
-                        Weather Today
-                      </Typography>
-                      { weather !== undefined ? 
-                      <div>
-
-                          
-                            <img src={weather.weather[0].icon} alt={"error loading weather data" }></img>
-                            <Typography className={classes.pos} color="textSecondary">
-                            {"Feels like: " + JSON.stringify(weather.main.feels_like)}
-                          </Typography>
-                      </div>
-
-                      :
-                      <div className={classes.loading}>
-                          <LinearProgress className={classes.loadingBar}/>
-                          <LinearProgress color="secondary" className={classes.loadingBar}/>
-                      </div>
-                  
-
-                      }
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small">Learn More</Button>
-                    </CardActions>
-          </Card>
-       
         </div>
   );
 }

@@ -5,7 +5,11 @@ $scrollBarHeight: 1px;
 
 
 
-
+.sort{
+  display: flex;
+  justify-content: space-between;
+  z-index: 3;
+}
 
 .cardsScroll {
   height: 500px;
@@ -16,13 +20,13 @@ $scrollBarHeight: 1px;
 }
 
 .MuiPaper-root:not(:first-child) {
-  margin-left: -40px; 
+  margin-left: -190px; 
  
 }
 
   .MuiPaper-root:nth-child(n):hover {
     
-    margin-right: 60px;
+    margin-right: 120px;
     transition: all .1s ease-in;
     
   }

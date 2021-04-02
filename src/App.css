@@ -7,11 +7,11 @@
 }
 
 .MuiPaper-root:not(:first-child) {
-  margin-left: -40px;
+  margin-left: -190px;
 }
 
 .MuiPaper-root:nth-child(n):hover {
-  margin-right: 60px;
+  margin-right: 120px;
   -webkit-transition: all .1s ease-in;
   transition: all .1s ease-in;
 }
