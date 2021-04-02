@@ -133,6 +133,7 @@ const useStyles = makeStyles({
     const weatherData = await axios.get(url);
     console.log(weatherData.data);
     city.weather = weatherData.data;
+    city.feels_like = city.weather.main.feels_like ? city.weather.main.feels_like : city.weather.main.temp;
     setCitiesData([...citiesData, city])
   }
   const [loc, setLoc] = useState({});
@@ -186,13 +187,18 @@ console.log(citiesData)
   }, [])
 
   const sortWeather = (preference)=>{
-
+    console.log("BEFORe");
+    console.log(citiesData);
     const compare = (city_a, city_b) =>{
-      console.log(city_a.city +": "+city_a.weather.main.feels_like+ " vs " + city_b.city +" "+city_b.weather.main.feels_like)
-     
+      //console.log(city_a.city +": "+city_a.weather.main.feels_like+ " vs " + city_b.city +" "+city_b.weather.main.feels_like)
+
 
        const temp_city_a =  Number(city_a.weather.main.feels_like),
        temp_city_b =  Number(city_b.weather.main.feels_like);
+       console.log(city_a.city);
+       console.log(temp_city_a);
+       console.log(city_b.city);
+       console.log(temp_city_b)
       console.log(temp_city_a < temp_city_b)
       let swap;
       if(temp_city_a < temp_city_b){
@@ -202,7 +208,7 @@ console.log(citiesData)
         swap = 1;
       }
       else{
-        console.log("no swap for "+ city_a) 
+        console.log("no swap for "+ city_a.city) 
         swap= 0;
       }
 
@@ -212,11 +218,10 @@ console.log(citiesData)
 
       return swap;
     }
-    let ourCityData = [...citiesData];
-    console.log(ourCityData);
-    console.log(ourCityData.sort(compare))
-    setCitiesData(ourCityData.sort(compare))
-   
+    
+    setCitiesData([...new Set([...citiesData].sort(compare))])
+      console.log("After");
+    console.log(citiesData);
    
   }
 

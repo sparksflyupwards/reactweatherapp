@@ -21,6 +21,12 @@
   transition: all .1s ease-in;
 }
 
+.MuiPaper-root:(:first-child) {
+  margin-left: 190px; 
+  
+ 
+}
+
 /* 
 .cardsScroll {
   position: absolute;

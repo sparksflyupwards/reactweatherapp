@@ -19,6 +19,10 @@ $scrollBarHeight: 1px;
   padding-top: 20%;
 }
 
+.MuiPaper-root:(:first-child) {
+  margin-left: 190px; 
+ 
+}
 .MuiPaper-root:not(:first-child) {
   margin-left: -190px; 
  
