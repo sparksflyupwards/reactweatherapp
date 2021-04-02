@@ -185,13 +185,51 @@ console.log(citiesData)
   
   }, [])
 
+  const sortWeather = (preference)=>{
+
+    const compare = (city_a, city_b) =>{
+      console.log(city_a.city +": "+city_a.weather.main.feels_like+ " vs " + city_b.city +" "+city_b.weather.main.feels_like)
+     
+
+       const temp_city_a =  Number(city_a.weather.main.feels_like),
+       temp_city_b =  Number(city_b.weather.main.feels_like);
+      console.log(temp_city_a < temp_city_b)
+      let swap;
+      if(temp_city_a < temp_city_b){
+        swap = -1;
+      }
+      else if (temp_city_a > temp_city_b){
+        swap = 1;
+      }
+      else{
+        console.log("no swap for "+ city_a) 
+        swap= 0;
+      }
+
+      if (preference === "hot"){
+        swap *= -1;
+      }
+
+      return swap;
+    }
+    let ourCityData = [...citiesData];
+    console.log(ourCityData);
+    console.log(ourCityData.sort(compare))
+    setCitiesData(ourCityData.sort(compare))
+   
+   
+  }
+
   const sortCold = ()=>{
-    alert("sort cold")
+    sortWeather("cold");
   }
+
+    const sortHot= ()=>{
+    sortWeather("hot");
+  }
+
   
-  const sortHot = () => {
-    alert("sort hot")
-  }
+  
   const weatherCards = citiesData.map((city, idx)=>{
 
     return( <Card id={"card card"+idx} className={classes.root}
