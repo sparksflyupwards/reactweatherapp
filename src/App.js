@@ -37,6 +37,21 @@ const useStyles = makeStyles({
 
   
   },
+    rootBig: {
+    display: "inline-block",
+    position:"relative",
+    top:"-200px",
+    right: "auto",
+    height: "900px",
+    width: "900px",
+    transition: "all 2s ease-in",
+    borderRadius: "5%",
+    boxShadow:"-55px 5px 30px -16px #c1c1c1;",
+    zIndex: 1,
+    
+
+  
+  },
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9,
@@ -77,7 +92,7 @@ const useStyles = makeStyles({
   
 
   const [weather, setWeather] = useState();
-
+  const [cards, setCards] = useState([]);
   const [citiesData, setCitiesData] = useState([
 
   {city:"Aberdeen, Scotland",
@@ -151,7 +166,8 @@ const useStyles = makeStyles({
     city.weather = weatherData.data;
     city.weather.weather[0].icon = `http://openweathermap.org/img/wn/${city.weather.weather[0].icon}@2x.png`
     city.feels_like = city.weather.main.feels_like ? city.weather.main.feels_like : city.weather.main.temp;
-    setCitiesData([...citiesData, city])
+    setCitiesData([...citiesData, city]);
+
   }
   const [loc, setLoc] = useState({});
 
@@ -193,8 +209,10 @@ console.log(citiesData)
     });
 
     for(let city of citiesData){
+     setCards([...cards, cards.push("root")]);
       getWeatherData(city);
     }
+    console.log(cards)
 
 
 
@@ -253,11 +271,27 @@ console.log(citiesData)
   
   
   const weatherCards = citiesData.map((city, idx)=>{
-
-    return( <Card id={"card card"+idx} className={classes.root}
+    console.log("pp: "+idx+" "+cards[idx])
+    return( <Card id={"card card"+idx} className={cards !== undefined ? classes[cards[idx]] : classes.root}
              variant="outlined" 
-             onMouseEnter={()=>console.log("WE ON CARD "+idx)}
-             onClick={()=>console.log(citiesData[idx])}>
+             onMouseLeave={()=>{
+              let cardCopy = [...cards];
+               let card = cardCopy[idx];
+               if(card == "rootBig"){
+                 card = "root"
+               }
+               cardCopy[idx] = card;
+               setCards(cardCopy)
+               
+             }}
+             onClick={()=>{
+               let cardCopy = [...cards];
+               let card = cardCopy[idx];
+               card = "rootBig";
+               cardCopy[idx] = card;
+               setCards(cardCopy)
+             }
+               }>
                     <CardContent >
                       <Typography className={classes.title} color="textPrimary" gutterBottom>
                         {city.city}
