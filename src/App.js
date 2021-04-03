@@ -106,8 +106,22 @@ const useStyles = makeStyles({
   lat:39.55 ,
   long:116.25 ,
   weather: undefined},
-
-
+  {city:"Karachi, Pakistan",
+  lat:28.37 ,
+  long:-106.5 ,
+  weather: undefined},
+  {city:"Sydney, Austrailia",
+  lat:28.37 ,
+  long:-106.5 ,
+  weather: undefined},
+{city:"Osaka, Japan",
+  lat:28.37 ,
+  long:-106.5 ,
+  weather: undefined},
+ {city:"Oaxaca, Mexico",
+  lat:28.37 ,
+  long:-106.5 ,
+  weather: undefined},
     {city:"Chihuahua, Mexico",
   lat:28.37 ,
   long:-106.5 ,
@@ -129,10 +143,13 @@ const useStyles = makeStyles({
 
  
   const getWeatherData = async (city)=>{
-    const url  ='https://weather-proxy.freecodecamp.rocks/api/current?lat='+Number(city.lat)+'&lon='+Number(city.long);
+    const api_key = "a0f2d600d2c69d2d10efde01390f208a";
+    const url  = `http://api.openweathermap.org/data/2.5/weather?q=${city.city},,&units=metric&appid=${api_key}`
+    //'https://weather-proxy.freecodecamp.rocks/api/current?lat='+Number(city.lat)+'&lon='+Number(city.long);
     const weatherData = await axios.get(url);
     console.log(weatherData.data);
     city.weather = weatherData.data;
+    city.weather.weather[0].icon = `http://openweathermap.org/img/wn/${city.weather.weather[0].icon}@2x.png`
     city.feels_like = city.weather.main.feels_like ? city.weather.main.feels_like : city.weather.main.temp;
     setCitiesData([...citiesData, city])
   }
@@ -239,7 +256,8 @@ console.log(citiesData)
 
     return( <Card id={"card card"+idx} className={classes.root}
              variant="outlined" 
-             onMouseEnter={()=>console.log("WE ON CARD "+idx)}>
+             onMouseEnter={()=>console.log("WE ON CARD "+idx)}
+             onClick={()=>console.log(citiesData[idx])}>
                     <CardContent >
                       <Typography className={classes.title} color="textPrimary" gutterBottom>
                         {city.city}
@@ -249,6 +267,9 @@ console.log(citiesData)
 
                           
                             <img src={city.weather.weather[0].icon} alt={"error loading weather data" }></img>
+                          <Typography className={classes.pos} color="textSecondary">
+                            {city.weather.weather[0].description}
+                          </Typography>
                             <Typography className={classes.pos} color="textSecondary">
                             {"Feels like: " + JSON.stringify(city.weather.main.feels_like)}
                           </Typography>
